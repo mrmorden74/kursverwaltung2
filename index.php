@@ -12,10 +12,14 @@ require_once('inc/init.inc.php');
 	use Kursverwaltung\Personen\Kunde;
 	// use Kursverwaltung\Kurse\Kurs;
 	$test = new Kunde();
-	$test->id = '1';
-	$test->kundennummer = 'KdNr-000001'; // ruft __set auf
-	$test->vorname = 'Habakuk'; // ruft __set auf
-
+	$test->kundennummer = 'KdNr-000011'; // ruft __set auf
+	$test->vorname = 'Max';
+	$test->nachname = 'Musterman';
+	$test->adresse = 'Straße 1';
+	$test->plz = '1000';
+	$test->ort = 'Irgendwo';
+	$test->telefon = '01123456789';
+	$test->email = 'test@test.at';
 	$test->save();
 	?>
 </body>

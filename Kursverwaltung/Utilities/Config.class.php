@@ -19,15 +19,17 @@ class Config {
 			'adresse' => ['required'],
 			'plz' => ['required'],
 			'ort' => ['required'],
-			'telefon' => ['required']
+			'telefon' => ['required'],
+			'email' => ['required']
 		]
 	];
 
 	public static function getDbConfig() {
-		return self::$dbConfig;
+		return self::$dbConfig;/** Lesezugriff auf $dbConfig */
 	}
 
 	public static function getKundeConfig() {
 		return self::$kundeConfig;
 	}
+
 }

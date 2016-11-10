@@ -19,18 +19,17 @@ class DB
 		$fields = $value->config['columns'];
 		$sql = 'INSERT INTO '.$tbl.' SET ';
 		$fill = '';
-		$count = 0;
 		foreach ($fields as $key => $wert) {
-			$field = self::getInsertFields($key,$wert);
-			if ($count !== 0) {
+			$checkAuto = self::checkAutoIncrement($key,$wert);
+			if (!$checkAuto) {
 			$sql .= $fill.$pre.$key.' = "'.$value->$key.'"';
 			$fill = ', ';
 			}
-			$count++;
 			// echo $key.'<br>';
 		}
 		$sql .= ';';
-		echo $sql.'<br>';
+		$execute = self::executSql($sql);
+        echo $execute;
     }
     
     private static function checkConnection()
@@ -57,13 +56,41 @@ class DB
         if ($conn->connect_error !== null) {
             throw new \Exception('Datenbank Verbindungsfehler');
         }
+        $conn->set_charset("utf8"); /** gewünschte Kollation definieren*/
         return $conn;
     }
 
-	private static function getInsertFields($key,$value) {
+/**
+*  Überprüft Feld auf Typ auto(wert) in Config
+*  param $key	string	Feldname
+*  param $value	array	Properties dees Feldes
+*  return bool	true wenn autoincrement
+*/
+	private static function checkAutoIncrement($key,$value) {
 		foreach ($value as $attr) {
-		var_dump($attr);
-			if 
+		    if ($attr === 'auto') {
+                return true;
+            }
 		}
+        return false;
 	}
+
+	private static function executSql($sql) {
+		$stmt = self::$connection->prepare($sql) or trigger_error($stmt->error, E_USER_ERROR);
+		$stmt->execute();
+		if ($stmt->affected_rows && !$stmt->error) {
+			// $msg = '<p class="success">Datensatz '.$_POST['Vorname'].' '.$_POST['Nachname'].' ('.$_POST['Kundennummer'].') '.'erfolgreich hinzugefügt!</p>';
+			$msg = '<p class="success">Datensatz wurde erfolgreich hinzugefügt!</p>';
+			// foreach($_POST as $key => $val) {
+			// 	$_POST[$key]=''; // Formular löschen für weiteren Datensatz
+			// }
+		} else {
+			if ($stmt->errno === 1062) {
+			$msg = '<p class="error">Die Kundennummer ist bereits in Verwendung</p>';
+			} else {
+			$msg = '<p class="error">Datensatz konnte nicht hinzugefügt werden!<br>Fehlernummer: '.$stmt->errno.'</p>';
+			}
+        return $msg;
+		}
+    }
 }
