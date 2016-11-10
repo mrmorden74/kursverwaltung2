@@ -12,9 +12,11 @@ require_once('inc/init.inc.php');
 	use Kursverwaltung\Personen\Kunde;
 	// use Kursverwaltung\Kurse\Kurs;
 	$test = new Kunde();
+	$test->id = '1';
+	$test->kundennummer = 'KdNr-000001'; // ruft __set auf
 	$test->vorname = 'Habakuk'; // ruft __set auf
-	echo $test->vorname; // ruft __get auf
-	var_dump($test);
+
+	$test->save();
 	?>
 </body>
 </html>

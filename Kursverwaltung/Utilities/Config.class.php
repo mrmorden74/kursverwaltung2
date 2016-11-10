@@ -9,7 +9,18 @@ class Config {
 	];
 
 	private static $kundeConfig = [
-
+		'tableName' => 'kunden',
+		'prefix' => 'kunden_',
+		'columns' => [
+			'id' => ['required','auto'],
+			'kundennummer' => ['required'],
+			'vorname' => ['required', 'string'],
+			'nachname' => ['required', 'string'],
+			'adresse' => ['required'],
+			'plz' => ['required'],
+			'ort' => ['required'],
+			'telefon' => ['required']
+		]
 	];
 
 	public static function getDbConfig() {

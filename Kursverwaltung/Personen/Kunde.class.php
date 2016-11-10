@@ -1,6 +1,7 @@
 <?php 
 namespace Kursverwaltung\Personen;
 use Kursverwaltung\Utilities\DB;
+use Kursverwaltung\Utilities\Config;
 /** 
 * Entspricht einem Datensatz in der Tabelle kunden.
 * Erlaubt crud Funktionalitäten
@@ -16,9 +17,10 @@ class Kunde {
 	private $telefon;
 	private $email;
 	private $dbConnection;
+	private $config;
 
 	public function __construct() {
-	
+		$this->config = Config::getKundeConfig();
 	}
 
 	/**
@@ -54,7 +56,7 @@ class Kunde {
 		/* Wir brauchen DB connection, validInfos 
 
 		*/
-		DB::insert();
+		DB::insert($this);
 	}
 
 }
