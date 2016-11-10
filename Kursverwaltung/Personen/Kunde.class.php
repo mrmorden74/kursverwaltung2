@@ -1,11 +1,11 @@
 <?php 
 namespace Kursverwaltung\Personen;
+use Kursverwaltung\Utilities\DB;
+/** 
+* Entspricht einem Datensatz in der Tabelle kunden.
+* Erlaubt crud Funktionalitäten
+*/
 class Kunde {
-
-	public function test () {
-		return 'test';
-	}
-
 	private $id;
 	private $kundennummer;
 	private $vorname;
@@ -15,11 +15,18 @@ class Kunde {
 	private $ort;
 	private $telefon;
 	private $email;
+	private $dbConnection;
 
 	public function __construct() {
-
+	
 	}
 
+	/**
+	* Setter
+	* @public
+	* @param string $name
+	* @param mixed $value 
+	*/
 	public function __set($name, $value)
 	{
 		if (property_exists($this, $name)) {
@@ -29,6 +36,11 @@ class Kunde {
 		}
 	}
 
+	/**
+	* Getter
+	* @public
+	* @param string $name
+	*/
 	public function __get($name) {
 		if (property_exists($this, $name)) {
 			return $this->$name;
@@ -38,5 +50,11 @@ class Kunde {
 
 	}
 
+	public function save () {
+		/* Wir brauchen DB connection, validInfos 
+
+		*/
+		DB::insert();
+	}
 
 }
