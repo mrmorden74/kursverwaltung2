@@ -1,6 +1,7 @@
 <?php
 require_once('inc/init.inc.php');
-?>
+require_once 'inc/SimpleValidator/SimpleValidatorException.php';
+require_once 'inc/SimpleValidator/Validator.php';?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
