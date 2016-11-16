@@ -13,7 +13,7 @@ require_once 'inc/SimpleValidator/Validator.php';?>
 	use Kursverwaltung\Personen\Kunde;
 	// use Kursverwaltung\Kurse\Kurs;
 	$test = new Kunde();
-	$test->kundennummer = 'KdNr-000022'; // ruft __set auf
+	$test->kundennummer = 'KdNr-000049'; // ruft __set auf
 	$test->vorname = 'Max';
 	$test->nachname = 'Musterman';
 	$test->adresse = 'Straße 1';
@@ -21,7 +21,11 @@ require_once 'inc/SimpleValidator/Validator.php';?>
 	$test->ort = 'Irgendwo';
 	$test->telefon = '01123456789';
 	$test->email = 'test@test.at';
-	$test->save();
+	// $test->save();
+
+	$test->id = '58';
+	// $test->delete();
+	$test->select();
 	?>
 </body>
 </html>

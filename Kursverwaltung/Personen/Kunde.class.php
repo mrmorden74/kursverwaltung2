@@ -57,7 +57,32 @@ class Kunde {
 		/* Wir brauchen DB connection, validInfos 
 
 		*/
-		DB::insert($this);
+		if (!isset($this->id)) {
+			$this->id = DB::insert($this);
+		} else {
+			DB::update($this);
+		}
 	}
-
+	public function delete () {
+		echo $this->id;
+		
+		if (isset($this->id)) {
+			$this->id = DB::delete($this);
+			unset($this->id);
+		} else {
+				throw new \Exception('Kein Datensatz zum Löschen gefunden');
+		}
+		
+	}
+	public function select () {
+		echo $this->id;
+		
+		if (isset($this->id)) {
+			$this->id = DB::select($this);
+			var_dump($this);
+		} else {
+				throw new \Exception('Datensatz nicht gefunden');
+		}
+		
+	}
 }

@@ -11,6 +11,7 @@ class Config {
 	private static $kundeConfig = [
 		'tableName' => 'kunden',
 		'prefix' => 'kunden_',
+		'primaryKey' => 'id',
 		'columns' => [
 			'id' => [
 				'auto' => true,
