@@ -13,7 +13,7 @@ require_once 'inc/SimpleValidator/Validator.php';?>
 	use Kursverwaltung\Personen\Kunde;
 	// use Kursverwaltung\Kurse\Kurs;
 	$test = new Kunde();
-	$test->kundennummer = 'KdNr-000011'; // ruft __set auf
+	$test->kundennummer = 'KdNr-000022'; // ruft __set auf
 	$test->vorname = 'Max';
 	$test->nachname = 'Musterman';
 	$test->adresse = 'Straße 1';

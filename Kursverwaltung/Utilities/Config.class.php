@@ -12,15 +12,50 @@ class Config {
 		'tableName' => 'kunden',
 		'prefix' => 'kunden_',
 		'columns' => [
-			'id' => ['required','auto'],
-			'kundennummer' => ['required'],
-			'vorname' => ['required', 'string'],
-			'nachname' => ['required', 'string'],
-			'adresse' => ['required'],
-			'plz' => ['required'],
-			'ort' => ['required'],
-			'telefon' => ['required'],
-			'email' => ['required']
+			'id' => [
+				'auto' => true,
+				'datatyp' => 'int'
+				],
+			'kundennummer' => [
+				'required' => true,
+				'max' => 25,
+				'datatyp' => 'string'
+				],
+			'vorname' => [
+				'required' => true,
+				'max' => 255,
+				'datatyp' => 'string'
+				],
+			'nachname' => [
+				'required' => true,
+				'max' => 255,
+				'datatyp' => 'string'
+				],
+			'adresse' => [
+				'required' => true,
+				'max' => 255,
+				'datatyp' => 'string'
+				],
+			'plz' => [
+				'required' => true,
+				'max' => 4,
+				'datatyp' => 'string'
+				],
+			'ort' => [
+				'required' => true,
+				'max' => 80,
+				'datatyp' => 'string'
+				],
+			'telefon' => [
+				'required' => true,
+				'max' => 32,
+				'datatyp' => 'string'
+				],
+			'email' => [
+				'required' => true,
+				'max' => 120,
+				'datatyp' => 'email'
+				]
 		]
 	];
 

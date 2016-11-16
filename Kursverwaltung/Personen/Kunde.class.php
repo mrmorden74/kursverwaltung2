@@ -17,6 +17,7 @@ class Kunde {
 	private $telefon;
 	private $email;
 	private $dbConnection;
+	
 	private $config;
 
 	public function __construct() {

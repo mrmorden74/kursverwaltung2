@@ -17,21 +17,55 @@ class DB
 		$tbl = $value->config['tableName'];
 		$pre = $value->config['prefix'];
 		$fields = $value->config['columns'];
-		$sql = 'INSERT INTO '.$tbl.' SET ';
+		$sqlPrep = 'INSERT INTO '.$tbl.' SET ';
+		$PrepTyp = '';
+		$PrepVal = [];
+		$tempPrepVal = [];
 		$fill = '';
 		foreach ($fields as $key => $wert) {
 			$checkAuto = self::checkAutoIncrement($key,$wert);
-			if (!$checkAuto) {
-			$sql .= $fill.$pre.$key.' = "'.$value->$key.'"';
+			// $wert['auto'] ?? false
+			if (array_key_exists('auto',$wert) && $wert['auto'] === true) continue;
+			$sqlPrep .= $fill.$pre.$key.' = ?';
+			$PrepTyp .= self::getPrepDataTyp($wert['datatyp']);
+			$$key = $value->$key;
+			$PrepVal[] = &$$key;
 			$fill = ', ';
-			}
 			// echo $key.'<br>';
 		}
-		$sql .= ';';
-		$execute = self::executSql($sql);
-        echo $execute;
+		$sqlPrep .= ';';
+		array_unshift($PrepVal, $PrepTyp);
+		echo $sqlPrep.'<br>';
+		var_dump ($PrepVal);
+		echo $PrepTyp.'<br>';
+		$prepare = self::prepareSql($sqlPrep);
+		$execute = self::executSql($prepare,$PrepVal);
+        // echo $execute;
     }
     
+	private static function getPrepDataTyp($value)
+	{
+		switch ($value) {
+			case 'int':
+				return 'i';
+				break;
+			case 'email':
+			case 'regex':
+			case 'string':
+				return 's';
+				break;
+			case 'float':
+				return 'd';
+				break;
+			case 'blob':
+				return 'b';
+				break;
+			default:
+           		throw new \Exception('Fehler 5733: Ungültiger Datentyp in Config');
+		   		break;
+		}
+	}
+
     private static function checkConnection()
     {
         if (self::$connection === null) {
@@ -74,9 +108,16 @@ class DB
 		}
         return false;
 	}
-
-	private static function executSql($sql) {
-		$stmt = self::$connection->prepare($sql) or trigger_error($stmt->error, E_USER_ERROR);
+	private static function prepareSql($sql) {
+		$stmt = self::$connection->prepare($sql);
+		if(!$stmt) {
+			throw new \Exception('Fehler 4451: Daten können nicht geschrieben werden');
+		}
+		return $stmt;
+	}
+	private static function executSql($stmt,$stmtParams) {
+		// $stmt = self::$connection->prepare($sql) or trigger_error($stmt->error, E_USER_ERROR);
+		call_user_func_array([$stmt, 'bind_param'], $stmtParams);
 		$stmt->execute();
 		if ($stmt->affected_rows && !$stmt->error) {
 			// $msg = '<p class="success">Datensatz '.$_POST['Vorname'].' '.$_POST['Nachname'].' ('.$_POST['Kundennummer'].') '.'erfolgreich hinzugefügt!</p>';
